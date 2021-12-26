@@ -41,4 +41,4 @@ else{
     res.status(400).send("Request parameter doesn't exist");
 }
  });
-app.listen(8080, () => console.log('running on port 8080!'));
+app.listen(process.env.PORT || 3000, () => console.log('running on port 3000!'));
