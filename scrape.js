@@ -1,5 +1,6 @@
 const request = require("request-promise");
 const cheerio = require("cheerio");
+const { covidDataStateWise } = require("./covidData");
 
 
 (async() => {
@@ -17,10 +18,9 @@ const cheerio = require("cheerio");
      let dischargedPercentage = $('div[class="col-xs-8 site-stats-count"] > ul > li[class="bg-green"] > span[class="mob-show"] > strong').text().trim();
      let totalVaccination = $('div[class="fullbol"] > span[class="coviddata"]').text().trim();
      let todaysVaccination = $('div[class="fullbol"] > span[class="coviddataval"]').text().trim();
-     let covidDataState = $('table[class="statetable table table-striped"] > tbody').text();
-     $('table[class="statetable table table-striped"] > tbody').each((index, element) => {
-        console.log($(element).text());
-      });
+     let covidDataState = $('table[class="statetable table table-striped"]').text();
+     console.log(covidDataState);
+   
      
 
 
