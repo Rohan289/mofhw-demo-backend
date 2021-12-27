@@ -22,22 +22,37 @@ app.get("/list_covid_state_wise", async (req, res) => {
 covidDataStateWise = await fetchCovidData();
    let response = [];
    covidDataStateWise.data.map((element) => {
-       response.push(element);
+    const changed_active = element.active - element.new_active;
+    const changed_cured = element.cured - element.new_cured;
+    const changed_death = element.death - element.new_death;
+    let picked = {'state_name' : element.state_name,'new_active' : element.new_active, 'changed_active' : changed_active, 'new_cured' : element.new_cured,'changed_cured' : changed_cured, 'new_death': element.new_death,'changed_death' : changed_death};
+    response.push(picked);
    });
+   console.log("Response",response);
    res.status(200).send(response);
 });
 app.get("/filtered_list_covid_state_wise", async (req, res) => {
     covidDataStateWise = await fetchCovidData();
-    if(covidDataStateWise && covidDataStateWise.data && req.query.sort_by && req.query.sort_by in covidDataStateWise.data[0]) {
-    let response = [];
-    covidDataStateWise.data.map((element) => {
-        response.push(element);
-    });
+    if(covidDataStateWise && covidDataStateWise.data) {
+        let response = [];
+        covidDataStateWise.data.map((element) => {
+         const changed_active = element.active - element.new_active;
+         const changed_cured = element.cured - element.new_cured;
+         const changed_death = element.death - element.new_death;
+         let picked = {'state_name' : element.state_name,'new_active' : element.new_active, 'changed_active' : changed_active, 'new_cured' : element.new_cured,'changed_cured' : changed_cured, 'new_death': element.new_death,'changed_death' : changed_death};
+         response.push(picked);
+        });
+    if(req.query.sort_by && req.query.sort_by in response[0]) {
     response.sort((a,b) => a[req.query.sort_by] - b[req.query.sort_by]);
     res.status(200).send(response);
+    }
+    else{
+        res.status(400).send("Request parameter doesn't exist!");
+    
+    }
 }
 else{
-    res.status(400).send("Request parameter doesn't exist!");
+    res.status(400).send("Data doesn't exist");
 }
  });
  app.get("/search_details_covid_state", async (req, res) => {
