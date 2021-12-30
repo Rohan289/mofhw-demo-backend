@@ -30,7 +30,6 @@ covidDataStateWise = await fetchCovidData();
     let picked = {'state_name' : element.state_name,'new_active' : element.new_active, 'changed_active' : changed_active, 'new_cured' : element.new_cured,'changed_cured' : changed_cured, 'new_death': element.new_death,'changed_death' : changed_death};
     response.push(picked);
    });
-   console.log("Response",response);
    res.status(200).send(response);
 });
 app.get("/filtered_list_covid_state_wise", async (req, res) => {
